@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const PersonForm = ({ newName, setNewName, newNumber, handleNewNumber, persons, setPersons }) => {
 
     const addNewPerson = (event) => {
@@ -8,6 +10,8 @@ export const PersonForm = ({ newName, setNewName, newNumber, handleNewNumber, pe
 				name: newName,
 				number: newNumber
 			}
+
+            axios.post("http://localhost:3001/persons", newPerson);
 			setPersons([...persons, newPerson])
 		} else {
 			alert(`${newName} is already added to the phonebook`)
