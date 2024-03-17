@@ -1,40 +1,47 @@
 import axios from "axios";
 
-export const PersonForm = ({ newName, setNewName, newNumber, handleNewNumber, persons, setPersons }) => {
+export const PersonForm = ({
+  newName,
+  setNewName,
+  newNumber,
+  handleNewNumber,
+  persons,
+  setPersons,
+}) => {
+  const addNewPerson = (event) => {
+    event.preventDefault();
+    if (!persons.some((person) => person.name === newName)) {
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+        id: Date.now(),
+      };
 
-    const addNewPerson = (event) => {
-		event.preventDefault();
-		if (!persons.some(person => (person.name === newName))) {
-			const newPerson = {
-				id: Date.now(),
-				name: newName,
-				number: newNumber
-			}
+      axios.post("http://localhost:3001/persons", newPerson);
+      setPersons([...persons, newPerson]);
+    } else {
+      alert(`${newName} is already added to the phonebook`);
+    }
+  };
 
-            axios.post("http://localhost:3001/persons", newPerson);
-			setPersons([...persons, newPerson])
-		} else {
-			alert(`${newName} is already added to the phonebook`)
-		}
-	};
-
-    return (
+  return (
+    <div>
+      <h2>Add a New Person:</h2>
+      <form onSubmit={addNewPerson}>
         <div>
-            <h2>Add a New Person:</h2>
-                <form onSubmit={ addNewPerson }>
-                    <div>
-                        <label htmlFor="new-Name">Name: </label>
-                        <input id="new-Name" value={ newName } onChange={ setNewName } />
-                        <br /><br />
-                        <label htmlFor="new-Number">Number: </label>
-                        <input id="new-Number" value={ newNumber } onChange={ handleNewNumber } />
-                    </div>
-                    <br /><br />
-                    <div>
-                        <button type="submit">add</button>
-                    </div>
-                </form>
+          <label htmlFor="new-Name">Name: </label>
+          <input id="new-Name" value={newName} onChange={setNewName} />
+          <br />
+          <br />
+          <label htmlFor="new-Number">Number: </label>
+          <input id="new-Number" value={newNumber} onChange={handleNewNumber} />
         </div>
-    );
-
-}
+        <br />
+        <br />
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </div>
+  );
+};
