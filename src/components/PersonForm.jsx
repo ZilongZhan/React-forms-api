@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 
 export const PersonForm = ({
   newName,
@@ -14,7 +15,7 @@ export const PersonForm = ({
       const newPerson = {
         name: newName,
         number: newNumber,
-        id: Date.now(),
+        id: Date.now().toString,
       };
 
       axios.post("http://localhost:3001/persons", newPerson);
@@ -22,6 +23,44 @@ export const PersonForm = ({
     } else {
       alert(`${newName} is already added to the phonebook`);
     }
+  };
+
+  const resetPersons = (event) => {
+    const originalPersons = [
+      {
+        name: "Arto Hellas",
+        number: "040-123456",
+        id: "1",
+      },
+      {
+        name: "Ada Lovelace",
+        number: "39-44-5323523",
+        id: "2",
+      },
+      {
+        name: "Dan Abramov",
+        number: "12-43-234345",
+        id: "3",
+      },
+      {
+        name: "Mary Poppendieck",
+        number: "39-23-6423122",
+        id: "4",
+      },
+    ];
+
+    event.preventDefault();
+    axios.get("http://localhost:3001/persons").then((response) => {
+      response.data.forEach((person) => {
+        axios.delete(`http://localhost:3001/persons/${person.id}`);
+      });
+    });
+
+    originalPersons.forEach((originalPerson) => {
+      axios.post("http://localhost:3001/persons", originalPerson);
+    });
+
+    setPersons([...originalPersons]);
   };
 
   return (
@@ -40,6 +79,7 @@ export const PersonForm = ({
         <br />
         <div>
           <button type="submit">add</button>
+          <button onClick={resetPersons}>reset</button>
         </div>
       </form>
     </div>
