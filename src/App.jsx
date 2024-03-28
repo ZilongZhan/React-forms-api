@@ -9,7 +9,7 @@ const App = () => {
   const { persons, handleUpdatePersons } = usePersons();
 
   return (
-    <div>
+    <main>
       <Header heading="Phonebook" />
       <Filter setNewFilter={handleNewFilterValue} />
       <PersonForm
@@ -25,7 +25,7 @@ const App = () => {
         persons={persons}
         setPersons={handleUpdatePersons}
       />
-    </div>
+    </main>
   );
 };
 
