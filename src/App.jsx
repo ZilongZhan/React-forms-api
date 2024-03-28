@@ -1,15 +1,16 @@
 import { Filter, Numbers, PersonForm } from "./components";
+import { Header } from "./components/shared";
 import { useFormFilter, usePersons, useForm } from "./hooks";
 
 const App = () => {
   const { newName, newNumber, handleNewNameValue, handleNewNumberValue } =
     useForm();
   const { newFilter, handleNewFilterValue } = useFormFilter();
-  const { persons, handleChangePersonsValue } = usePersons();
+  const { persons, handleUpdatePersons } = usePersons();
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <Header heading="Phonebook" />
       <Filter setNewFilter={handleNewFilterValue} />
       <PersonForm
         newName={newName}
@@ -17,9 +18,13 @@ const App = () => {
         newNumber={newNumber}
         handleNewNumber={handleNewNumberValue}
         persons={persons}
-        setPersons={handleChangePersonsValue}
+        setPersons={handleUpdatePersons}
       />
-      <Numbers newFilter={newFilter} persons={persons} />
+      <Numbers
+        newFilter={newFilter}
+        persons={persons}
+        setPersons={handleUpdatePersons}
+      />
     </div>
   );
 };

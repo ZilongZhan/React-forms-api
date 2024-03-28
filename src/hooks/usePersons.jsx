@@ -1,23 +1,19 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { getPersons } from "../services/person";
 
 export const usePersons = () => {
   const [persons, setPersons] = useState([]);
 
-  const getPersons = () => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => handleChangePersonsValue(response.data));
-  };
+  useEffect(() => {
+    getPersons().then((personsData) => handleUpdatePersons(personsData));
+  }, []);
 
-  useEffect(getPersons, []);
-
-  const handleChangePersonsValue = (newValue) => {
+  const handleUpdatePersons = (newValue) => {
     setPersons(newValue);
   };
 
   return {
     persons,
-    handleChangePersonsValue,
+    handleUpdatePersons,
   };
 };
