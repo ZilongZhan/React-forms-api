@@ -1,7 +1,10 @@
-import { addPerson } from "../../services/person";
-import { getPersons } from "../../services/person";
+import { addPerson, getPersons, updatePerson } from "../../services/person";
 
 export const handleNewPerson = (newName, newNumber, persons, setPersons) => {
+  const existingPersonIndex = persons.findIndex(
+    (person) => person.name === newName
+  );
+
   if (!persons.some((person) => person.name === newName)) {
     const newPerson = {
       name: newName,
@@ -13,6 +16,21 @@ export const handleNewPerson = (newName, newNumber, persons, setPersons) => {
       getPersons().then((personsData) => setPersons(personsData))
     );
   } else {
-    alert(`${newName} is already added to the phonebook`);
+    const existingPerson = persons[existingPersonIndex];
+
+    if (
+      confirm(
+        `${newName} is already added to the phonebook, replace the old number with a new one?`
+      )
+    ) {
+      const oldPerson = {
+        ...existingPerson,
+        number: newNumber,
+      };
+
+      updatePerson(oldPerson).then(() =>
+        getPersons().then((personsData) => setPersons(personsData))
+      );
+    }
   }
 };

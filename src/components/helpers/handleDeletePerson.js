@@ -1,11 +1,13 @@
 import { deletePerson } from "../../services/person";
 
-export const handleDeletePerson = (id, persons, setPersons) => {
+export const handleDeletePerson = (id, name, persons, setPersons) => {
   const remainingPersons = (person) => {
     return person.id != id;
   };
 
-  deletePerson(id).then(() => {
-    setPersons(persons.filter(remainingPersons));
-  });
+  if (confirm(`Delete ${name}?`)) {
+    deletePerson(id).then(() => {
+      setPersons(persons.filter(remainingPersons));
+    });
+  }
 };

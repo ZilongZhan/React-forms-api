@@ -7,7 +7,7 @@ export const Filter = ({ setNewFilter }) => {
     <form>
       <div>
         <label htmlFor="filter">Filter by: </label>
-        <input htmlFor="filter" onChange={handleChangeFilterValue} />
+        <input id="filter" onChange={handleChangeFilterValue} />
       </div>
     </form>
   );

@@ -7,7 +7,7 @@ export const Person = ({ index, person, persons, setter }) => {
       {person.name} {person.number}
       <Button
         label="delete"
-        action={() => handleDeletePerson(person.id, persons, setter)}
+        action={() => handleDeletePerson(person.id, person.name, persons, setter)}
       />
     </li>
   );
